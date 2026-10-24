@@ -1,0 +1,97 @@
+{
+  "_note": "Starter list. Before shipping, open every URL, confirm it is the official page, and set last_verified to that date. Offer terms change: the Skill re-reads each page at run time and never trusts this file for terms.",
+  "sources": [
+    {
+      "id": "github-student-pack",
+      "provider": "GitHub",
+      "category": "coding",
+      "scope": "any",
+      "url": "https://education.github.com/pack",
+      "last_verified": null
+    },
+    {
+      "id": "jetbrains-students",
+      "provider": "JetBrains",
+      "category": "coding",
+      "scope": "any",
+      "url": "https://www.jetbrains.com/community/education/",
+      "last_verified": null
+    },
+    {
+      "id": "azure-students",
+      "provider": "Microsoft Azure",
+      "category": "coding",
+      "scope": "any",
+      "url": "https://azure.microsoft.com/en-us/free/students",
+      "last_verified": null
+    },
+    {
+      "id": "figma-education",
+      "provider": "Figma",
+      "category": "design",
+      "scope": "any",
+      "url": "https://www.figma.com/education/",
+      "last_verified": null
+    },
+    {
+      "id": "autodesk-education",
+      "provider": "Autodesk",
+      "category": "design",
+      "scope": "any",
+      "url": "https://www.autodesk.com/education/edu-software/overview",
+      "last_verified": null
+    },
+    {
+      "id": "notion-education",
+      "provider": "Notion",
+      "category": "productivity",
+      "scope": "any",
+      "url": "https://www.notion.com/product/notion-for-education",
+      "last_verified": null
+    },
+    {
+      "id": "asu-myapps",
+      "provider": "Arizona State University",
+      "category": "productivity",
+      "scope": "Arizona State University",
+      "url": "https://myapps.asu.edu/home",
+      "last_verified": null
+    },
+    {
+      "id": "asu-grammarly",
+      "provider": "Grammarly (via ASU)",
+      "category": "productivity",
+      "scope": "Arizona State University",
+      "url": "https://provost.asu.edu/generative-ai/grammarlyFAQ",
+      "requires": "Subscribe at asu.edu/selfsub before logging in to Grammarly with the ASU email",
+      "last_verified": "2026-10-24"
+    },
+    {
+      "id": "asu-adobe-cc",
+      "provider": "Adobe (via ASU)",
+      "category": "design",
+      "scope": "Arizona State University",
+      "url": "https://tech.asu.edu/briefs/add-adobe-creative-cloud",
+      "requires": "Claim steps not on this page; check ASU My Apps",
+      "last_verified": "2026-10-24"
+    },
+    {
+      "id": "asu-fulton-software",
+      "provider": "ASU Fulton Schools of Engineering",
+      "category": "coding",
+      "scope": "Arizona State University",
+      "url": "https://ets.engineering.asu.edu/software/",
+      "requires": "Fulton Schools (engineering) students only",
+      "last_verified": "2026-10-24"
+    },
+    {
+      "id": "asu-bookstore-software",
+      "provider": "ASU Bookstore",
+      "category": "productivity",
+      "scope": "Arizona State University",
+      "url": "https://www.bkstr.com/arizonastatestore/shop/electronics/software",
+      "paid": true,
+      "last_verified": null
+    }
+  ]
+}
