@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Per-student state for the College Discount Finder Skill.
+"""Per-student state for the campus-perks Skill.
 
 Stores the student's profile and offer decisions under HOME so the data survives
 Skill updates. Standard library only.
@@ -28,7 +28,7 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Any
 
-SKILL_NAME = "college-discount-finder"
+SKILL_NAME = "campus-perks"
 SCHEMA_VERSION = 1
 STATUSES = ("claimed", "saved", "dismissed")
 SUPPRESSED_STATUSES = ("claimed", "dismissed")
@@ -253,7 +253,7 @@ def cmd_reset(args: argparse.Namespace, _state: dict[str, Any], path: Path) -> d
 # ---------- entry point ----------
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="College Discount Finder state helper")
+    parser = argparse.ArgumentParser(description="campus-perks state helper")
     parser.add_argument("--sample", action="store_true", help="use sample data and a separate sample state file")
     sub = parser.add_subparsers(dest="command", required=True)
 
