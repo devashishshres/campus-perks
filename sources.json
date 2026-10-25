@@ -1,10 +1,12 @@
 {
-  "_note": "Starter list. Before shipping, open every URL, confirm it is the official page, and set last_verified to that date. Offer terms change: the Skill re-reads each page at run time and never trusts this file for terms.",
+  "_note": "Starter list. Before shipping, open every URL, confirm it is the official page, and set last_verified to that date. Offer terms change: the Skill re-reads each page at run time and never trusts this file for terms. categories: coding, engineering, design, productivity, ai, learning. scope: \"any\" or one university's full name.",
   "sources": [
     {
       "id": "github-student-pack",
       "provider": "GitHub",
-      "category": "coding",
+      "categories": [
+        "coding"
+      ],
       "scope": "any",
       "url": "https://education.github.com/pack",
       "last_verified": null
@@ -12,7 +14,9 @@
     {
       "id": "jetbrains-students",
       "provider": "JetBrains",
-      "category": "coding",
+      "categories": [
+        "coding"
+      ],
       "scope": "any",
       "url": "https://www.jetbrains.com/community/education/",
       "last_verified": null
@@ -20,7 +24,9 @@
     {
       "id": "azure-students",
       "provider": "Microsoft Azure",
-      "category": "coding",
+      "categories": [
+        "coding"
+      ],
       "scope": "any",
       "url": "https://azure.microsoft.com/en-us/free/students",
       "last_verified": null
@@ -28,7 +34,9 @@
     {
       "id": "figma-education",
       "provider": "Figma",
-      "category": "design",
+      "categories": [
+        "design"
+      ],
       "scope": "any",
       "url": "https://www.figma.com/education/",
       "last_verified": null
@@ -36,7 +44,10 @@
     {
       "id": "autodesk-education",
       "provider": "Autodesk",
-      "category": "design",
+      "categories": [
+        "design",
+        "engineering"
+      ],
       "scope": "any",
       "url": "https://www.autodesk.com/education/edu-software/overview",
       "last_verified": null
@@ -44,15 +55,34 @@
     {
       "id": "notion-education",
       "provider": "Notion",
-      "category": "productivity",
+      "categories": [
+        "productivity"
+      ],
       "scope": "any",
       "url": "https://www.notion.com/product/notion-for-education",
       "last_verified": null
     },
     {
+      "id": "mathworks-students",
+      "provider": "MathWorks (MATLAB)",
+      "categories": [
+        "engineering",
+        "coding"
+      ],
+      "scope": "any",
+      "url": "https://www.mathworks.com/academia/students.html",
+      "requires": "Free only if the student's university has a campus-wide license; otherwise it is a paid student license",
+      "last_verified": null
+    },
+    {
       "id": "asu-myapps",
       "provider": "Arizona State University",
-      "category": "productivity",
+      "categories": [
+        "productivity",
+        "engineering",
+        "design",
+        "coding"
+      ],
       "scope": "Arizona State University",
       "url": "https://myapps.asu.edu/home",
       "last_verified": null
@@ -60,16 +90,31 @@
     {
       "id": "asu-grammarly",
       "provider": "Grammarly (via ASU)",
-      "category": "productivity",
+      "categories": [
+        "productivity"
+      ],
       "scope": "Arizona State University",
       "url": "https://provost.asu.edu/generative-ai/grammarlyFAQ",
       "requires": "Subscribe at asu.edu/selfsub before logging in to Grammarly with the ASU email",
       "last_verified": "2026-10-24"
     },
     {
+      "id": "asu-microsoft-365",
+      "provider": "Microsoft (via ASU)",
+      "categories": [
+        "productivity"
+      ],
+      "scope": "Arizona State University",
+      "url": "https://tech.asu.edu/asu-providing-microsoft-office-365-all-students-faculty-staff",
+      "requires": "Currently enrolled students; sign in at Microsoft with the ASU email; personal devices only (5 computers + 5 tablets). Page is from 2015, so confirm on ASU My Apps",
+      "last_verified": "2026-10-24"
+    },
+    {
       "id": "asu-adobe-cc",
       "provider": "Adobe (via ASU)",
-      "category": "design",
+      "categories": [
+        "design"
+      ],
       "scope": "Arizona State University",
       "url": "https://tech.asu.edu/briefs/add-adobe-creative-cloud",
       "requires": "Claim steps not on this page; check ASU My Apps",
@@ -78,7 +123,10 @@
     {
       "id": "asu-fulton-software",
       "provider": "ASU Fulton Schools of Engineering",
-      "category": "coding",
+      "categories": [
+        "engineering",
+        "coding"
+      ],
       "scope": "Arizona State University",
       "url": "https://ets.engineering.asu.edu/software/",
       "requires": "Fulton Schools (engineering) students only",
@@ -87,7 +135,9 @@
     {
       "id": "asu-bookstore-software",
       "provider": "ASU Bookstore",
-      "category": "productivity",
+      "categories": [
+        "productivity"
+      ],
       "scope": "Arizona State University",
       "url": "https://www.bkstr.com/arizonastatestore/shop/electronics/software",
       "paid": true,

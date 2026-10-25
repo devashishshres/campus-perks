@@ -1,7 +1,8 @@
 {
+  "_note": "Test data only. value_usd numbers are made up for testing and are not real prices.",
   "offers": [
-    {"id": "github-student-pack", "provider": "GitHub", "benefit": "Free bundle of developer tools for students", "official_url": "https://education.github.com/pack", "eligibility": "Verified enrolled student", "deadline": "unknown", "payment_required": "no", "renewal_terms": "Benefits end when student status ends", "last_checked": "2026-10-24"},
-    {"id": "jetbrains-students", "provider": "JetBrains", "benefit": "Free IDE licenses for students", "official_url": "https://www.jetbrains.com/community/education/", "eligibility": "Student with a school email or ISIC card", "deadline": "unknown", "payment_required": "no", "renewal_terms": "Renew yearly while still a student", "last_checked": "2026-10-24"},
-    {"id": "example-ai-tool", "provider": "Example AI", "benefit": "3 months free Pro plan", "official_url": "https://example.com/students", "eligibility": "unknown", "deadline": "2026-12-31", "payment_required": "yes", "renewal_terms": "Renews at the regular monthly price", "last_checked": "2026-10-24"}
+    {"id": "github-student-pack", "provider": "GitHub", "benefit": "Free bundle of developer tools for students", "official_url": "https://education.github.com/pack", "eligibility": "Verified enrolled student", "deadline": "unknown", "payment_required": "no", "renewal_terms": "Benefits end when student status ends", "value_usd": "unknown", "last_checked": "2026-10-24"},
+    {"id": "jetbrains-students", "provider": "JetBrains", "benefit": "Free IDE licenses for students", "official_url": "https://www.jetbrains.com/community/education/", "eligibility": "Student with a school email or ISIC card", "deadline": "unknown", "payment_required": "no", "renewal_terms": "Renew yearly while still a student", "value_usd": 100, "last_checked": "2026-10-24"},
+    {"id": "example-ai-tool", "provider": "Example AI", "benefit": "3 months free Pro plan", "official_url": "https://example.com/students", "eligibility": "unknown", "deadline": "2026-12-31", "payment_required": "yes", "renewal_terms": "Renews at the regular monthly price", "value_usd": 240, "last_checked": "2026-10-24"}
   ]
 }

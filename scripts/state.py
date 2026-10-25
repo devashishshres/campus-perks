@@ -6,9 +6,10 @@ Skill updates. Standard library only.
 
 Commands:
   profile --show | --set JSON     Read or save the student's profile.
-  diff --offers FILE [--record]   Split offers into new / changed / unchanged / suppressed.
+  diff --offers FILE [--record]   Split offers into new / changed / unchanged / suppressed,
+                                  and total the yearly value of offers the student hasn't claimed.
   mark --id ID --status STATUS    Record claimed / saved / dismissed (optional --activated DATE).
-  list                            Print all saved offer records.
+  list                            Print all saved records and the value of claimed offers.
   reset --yes                     Delete all saved state for this Skill.
 
 Add --sample to any command to use assets/sample_offers.json (for diff) and a
@@ -35,8 +36,9 @@ SUPPRESSED_STATUSES = ("claimed", "dismissed")
 REQUIRED_FIELDS = ("id", "provider", "benefit", "official_url")
 TERM_FIELDS = ("benefit", "eligibility", "deadline", "payment_required", "renewal_terms")
 OPTIONAL_FIELDS = ("eligibility", "deadline", "payment_required", "renewal_terms", "last_checked")
-PROFILE_FIELDS = {"university": str, "country": str, "interests": list, "free_only": bool}
+PROFILE_FIELDS = {"university": str, "major": str, "country": str, "interests": list, "free_only": bool}
 MAX_OFFERS = 200
+MAX_VALUE_USD = 100_000  # yearly list price; anything larger is a typo
 
 EXIT_OK, EXIT_BAD_INPUT, EXIT_BAD_STATE = 0, 2, 3
 SKILL_DIR = Path(__file__).resolve().parent.parent
@@ -110,7 +112,16 @@ def clean_text(value: Any, field: str, max_len: int = 500) -> str:
     return (text or "unknown")[:max_len]
 
 
-def normalize_offer(raw: Any, index: int) -> dict[str, str]:
+def parse_value(value: Any, offer_id: str) -> int | None:
+    """Yearly list price in USD from the official pricing page, or None when unknown."""
+    if value is None or value == "unknown":
+        return None
+    if isinstance(value, bool) or not isinstance(value, (int, float)) or not 0 <= value <= MAX_VALUE_USD:
+        raise InputError(f"offer {offer_id!r}: value_usd must be a number from 0 to {MAX_VALUE_USD} or \"unknown\"")
+    return round(value)
+
+
+def normalize_offer(raw: Any, index: int) -> dict[str, Any]:
     if not isinstance(raw, dict):
         raise InputError(f"offer #{index} is not an object")
     missing = [f for f in REQUIRED_FIELDS if not raw.get(f)]
@@ -122,10 +133,11 @@ def normalize_offer(raw: Any, index: int) -> dict[str, str]:
         raise InputError(f"offer {offer['id']!r}: official_url must start with https://")
     if offer["last_checked"] == "unknown":
         offer["last_checked"] = today()
+    offer["value_usd"] = parse_value(raw.get("value_usd"), offer["id"])
     return offer
 
 
-def load_offers(path: Path) -> list[dict[str, str]]:
+def load_offers(path: Path) -> list[dict[str, Any]]:
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
     except FileNotFoundError as exc:
@@ -145,7 +157,7 @@ def load_offers(path: Path) -> list[dict[str, str]]:
     return offers
 
 
-def fingerprint(offer: dict[str, str]) -> str:
+def fingerprint(offer: dict[str, Any]) -> str:
     """Hash of the terms a student cares about; last_checked is excluded."""
     material = json.dumps({f: offer.get(f, "unknown").lower() for f in TERM_FIELDS}, sort_keys=True)
     return hashlib.sha256(material.encode("utf-8")).hexdigest()[:16]
@@ -190,6 +202,7 @@ def cmd_diff(args: argparse.Namespace, state: dict[str, Any], path: Path) -> dic
     offers = load_offers(offers_file)
     result: dict[str, list[dict[str, Any]]] = {"new": [], "changed": [], "unchanged": [], "suppressed": []}
     saved = state["offers"]
+    value = {"unclaimed_usd": 0, "unknown_count": 0}
 
     for offer in offers:
         fp = fingerprint(offer)
@@ -209,6 +222,11 @@ def cmd_diff(args: argparse.Namespace, state: dict[str, Any], path: Path) -> dic
         elif bucket == "unchanged":
             entry = {"id": offer["id"], "provider": offer["provider"]}
         result[bucket].append(entry)
+        if bucket != "suppressed":
+            if offer["value_usd"] is None:
+                value["unknown_count"] += 1
+            else:
+                value["unclaimed_usd"] += offer["value_usd"]
 
         if args.record and bucket in ("new", "changed"):
             rec = saved.setdefault(offer["id"], {})
@@ -217,6 +235,7 @@ def cmd_diff(args: argparse.Namespace, state: dict[str, Any], path: Path) -> dic
                 benefit=offer["benefit"],
                 official_url=offer["official_url"],
                 renewal_terms=offer["renewal_terms"],
+                value_usd=offer["value_usd"],
                 fingerprint=fp,
                 last_shown=today(),
             )
@@ -225,7 +244,7 @@ def cmd_diff(args: argparse.Namespace, state: dict[str, Any], path: Path) -> dic
     if args.record:
         save_state(path, state)
     summary = {k: len(v) for k, v in result.items()}
-    return {"summary": summary, **result, "recorded": bool(args.record)}
+    return {"summary": summary, "value": value, **result, "recorded": bool(args.record)}
 
 
 def cmd_mark(args: argparse.Namespace, state: dict[str, Any], path: Path) -> dict[str, Any]:
@@ -240,7 +259,13 @@ def cmd_mark(args: argparse.Namespace, state: dict[str, Any], path: Path) -> dic
 
 
 def cmd_list(_args: argparse.Namespace, state: dict[str, Any], _path: Path) -> dict[str, Any]:
-    return {"profile": state["profile"], "offers": state["offers"]}
+    claimed = [r for r in state["offers"].values() if r.get("status") == "claimed"]
+    return {
+        "profile": state["profile"],
+        "offers": state["offers"],
+        "claimed_value_usd": sum(r.get("value_usd") or 0 for r in claimed),
+        "claimed_value_unknown_count": sum(1 for r in claimed if r.get("value_usd") is None),
+    }
 
 
 def cmd_reset(args: argparse.Namespace, _state: dict[str, Any], path: Path) -> dict[str, Any]:
